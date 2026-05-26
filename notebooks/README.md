@@ -17,7 +17,7 @@ To download the dataset programmatically, you need a personal Kaggle authenticat
 
 ---
 
-## 📥 **Step 2: Ingest Data
+## 📥 **Step 2: Ingest Data**
 ### a. Via Colab Terminal (Single Command)**
 
 Google Colab now provides free terminal access. You can download, extract, and clean up the entire dataset by copying and pasting a single chained command.
