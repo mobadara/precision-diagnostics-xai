@@ -39,10 +39,3 @@ dataset/
 
 ⚠️ Important: Ensure that dataset/chest_xray_data/ is included in your project's .gitignore file to prevent pushing large image files to GitHub.
 
-
-### The Quick Git Fix
-Since we just mentioned it in the README, take five seconds right now to make sure your `.gitignore` file at the root of your project has this line in it:
-
-```text
-dataset/chest_xray_data/
-```
