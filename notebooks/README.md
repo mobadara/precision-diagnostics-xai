@@ -1,5 +1,5 @@
 # 📓 **Notebooks Directory**
-
+![Google Colab](https://img.shields.io/badge/Google_Colab-F9AB00?style=for-the-badge&logo=googlecolab&color=525252)
 This directory contains the core machine learning experiments, including Exploratory Data Analysis (EDA) and the PyTorch DenseNet121 fine-tuning pipeline.
 
 **⚠️ Prerequisite:** Before executing these notebooks, you must download the 2GB Kaggle Chest X-Ray dataset into the project workspace. Because we use Google Colab for GPU training, follow the instructions below to ingest the data directly into your active Colab session.
