@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+python-multipart
+pydantic
+python-dotenv
+numpy
+pillow
+motor
+cloudinary
+huggingface-hub
+grad-cam
+torch
+torchvision
+opencv-python-headless
+
+
+
