@@ -1,0 +1,19 @@
+# Ignore local python virtual environments
+venv/
+.venv/
+env/
+
+# Ignore local caches and logs
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.history/
+
+# Ignore sensitive credentials (these must be injected at runtime, not hardcoded)
+.env
+
+# Ignore system files
+.DS_Store
+Thumbs.db
