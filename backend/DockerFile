@@ -5,16 +5,15 @@ FROM python:3.11-slim
 RUN useradd -m -u 1000 user
 USER user
 
-# Set environment variables for the user path and standard Python vars
+# Set environment variables
 ENV PATH="/home/user/.local/bin:$PATH"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the working directory to the user's home app folder
+# This creates the /app folder INSIDE the virtual container
 WORKDIR /app
 
-# Install system dependencies (required for OpenCV headless)
-# Note: We must temporarily switch to root to run apt-get, then switch back
+# Temporarily become root to install system dependencies for OpenCV
 USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
@@ -24,15 +23,15 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 USER user
 
-# Copy requirements and install
-COPY --chown=user ./requirements.txt requirements.txt
+# 🚨 TARGETED COPYING: We specifically grab files from your local 'backend' folder
+COPY --chown=user ./backend/requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Copy the rest of the application files
-COPY --chown=user . /app
+# Copy everything else from the local 'backend' folder into the container's /app folder
+COPY --chown=user ./backend /app
 
-# Hugging Face explicitly requires listening on port 7860
+# Expose the specific port Hugging Face requires
 EXPOSE 7860
 
-# Launch Uvicorn on port 7860
+# Launch the FastAPI server
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
