@@ -1,5 +1,7 @@
 from fastapi import APIRouter, File, UploadFile, HTTPException
-from ..schema import PredictionResponse, DiagnosticRecordSchema
+from bson import ObjectId
+import random
+from ..schema import PredictionResponse, DiagnosticRecordSchema, OverrideRequest
 from ..database import upload_image_to_cloud, diagnostic_records
 from ..ml_model import run_diagnostic_inference
 
@@ -12,15 +14,22 @@ router = APIRouter(
 # Enforce strict typing on the response using response_model
 @router.post('/predict', response_model=PredictionResponse)
 async def predict_xray(file: UploadFile = File(...)):
-    '''
+    """
     Analyzes an uploaded X-ray, uploads to Cloudinary, saves to MongoDB, 
     and returns strictly typed results.
-    '''
+    """
     if not file.content_type.startswith('image/'):
         raise HTTPException(status_code=400, detail='Invalid file format. Please upload an image.')
 
     try:
         image_bytes = await file.read()
+        
+        # Select a model with given weights
+        assigned_model = random.choices(['DenseNet121_v1', 'ResNet50_Challenger'],
+                        weights=[1, 0],  # To train another model in the future
+                        k=1)[0]           # For now, we only have DenseNet121_v1, so it gets 100% of the traffic. This is where A/B testing logic would go in the future.
+        
+        
         ai_result = run_diagnostic_inference(image_bytes)
 
         original_url = upload_image_to_cloud(image_bytes, folder_name='raw_xrays')
@@ -32,7 +41,8 @@ async def predict_xray(file: UploadFile = File(...)):
             heatmap_image_url=heatmap_url,
             prediction=ai_result['prediction'],
             confidence_score=ai_result['confidence'],
-            probabilities=ai_result['probabilities']
+            probabilities=ai_result['probabilities'],
+            model_variant=assigned_model
         )
 
         # model_dump() converts the Pydantic model safely to a dictionary for MongoDB
@@ -54,9 +64,9 @@ async def predict_xray(file: UploadFile = File(...)):
     
 @router.put('/override/{record_id}')
 async def submit_physician_override(record_id: str, override_data: OverrideRequest):
-    '''
+    """
     Updates a specific diagnostic record with the physician's feedback.
-    '''
+    """
     try:
         # Update the MongoDB document matching the ID
         update_result = await diagnostic_records.update_one(
