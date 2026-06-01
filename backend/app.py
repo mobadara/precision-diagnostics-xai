@@ -17,7 +17,7 @@ app = FastAPI(
 # Configure CORS so the React frontend can communicate with this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['*.vercel.app', 'localhost:3000'],  # Note: Restrict this to 'localhost:3000' or your domain in production
+    allow_origins=['https://precision-diagnostics-xai.vercel.app/', '*.vercel.app', 'localhost:3000'],  # Note: Restrict this to 'localhost:3000' or your domain in production
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
