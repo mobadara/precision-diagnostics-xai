@@ -7,7 +7,7 @@ from torchvision import models, transforms
 from PIL import Image
 from huggingface_hub import hf_hub_download
 from pytorch_grad_cam import GradCAM
-from pytorch_grad_cam.utils.image_targets import ClassifierOutputTarget
+from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 from pytorch_grad_cam.utils.image import show_cam_on_image
 import numpy as np
 import cv2
