@@ -30,10 +30,10 @@ def get_densenet_model() -> nn.Module:
     num_features = model.classifier.in_features
     
     model.classifier = nn.Sequential(
-        nn.Linear(num_features, 265),
+        nn.Linear(num_features, 256),
         nn.ReLU(),
         nn.Dropout(0.3),
-        nn.Linear(265, 2)
+        nn.Linear(256 2)
     )
     return model
 
