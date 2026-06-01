@@ -17,7 +17,16 @@ app = FastAPI(
 # Configure CORS so the React frontend can communicate with this API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['https://precision-diagnostics-xai.vercel.app/', '*.vercel.app', 'localhost:3000'],  # Note: Restrict this to 'localhost:3000' or your domain in production
+    # Allow local dev ports and the deployed Vercel domain. Use a regex for vercel subdomains.
+    allow_origins=[
+        'http://localhost:3000',
+        'http://localhost:5173',
+        'http://127.0.0.1:5173',
+        'http://localhost:8000',
+        'https://precision-diagnostics-xai.vercel.app'
+    ],
+    allow_origin_regex=r".*\.vercel\.app$",
+    # Note: In production, lock this list to the exact origins you control.
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],

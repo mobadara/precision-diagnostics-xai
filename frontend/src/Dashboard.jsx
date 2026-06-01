@@ -81,7 +81,7 @@ export default function Dashboard() {
         formData.append("file", selectedFile);
 
         try {
-            const API_URL = import.meta.env.VITE_API_URI || "http://localhost:8000";
+            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
             const response = await axios.post(`${API_URL}/api/v1/predict`, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
