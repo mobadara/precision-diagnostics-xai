@@ -1,52 +1,38 @@
-    # --- Step 1: Base Build Stage ---
-# Use an official Python slim image for a lightweight foundation
-FROM python:3.11-slim as builder
+# --- Base Build Stage ---
+FROM python:3.11-slim
 
-# Set build-time environment variables
+# Create a non-root user specifically for Hugging Face (User ID 1000)
+RUN useradd -m -u 1000 user
+USER user
+
+# Set environment variables for the user path and standard Python vars
+ENV PATH="/home/user/.local/bin:$PATH"
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
-# Set the working directory inside the container
+# Set the working directory to the user's home app folder
 WORKDIR /app
 
-# Install minimal system-level dependencies required for building/running certain wheels
-# (Even with headless OpenCV, some underlying OS libraries are helpful)
+# Install system dependencies (required for OpenCV headless)
+# Note: We must temporarily switch to root to run apt-get, then switch back
+USER root
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
+    libgl1 \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
+USER user
 
-# Copy only the requirements file first to maximize Docker layer caching
-COPY requirements.txt .
+# Copy requirements and install
+COPY --chown=user ./requirements.txt requirements.txt
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
-# Install dependencies into a local deployment wheelhouse/directory
-# We use --no-cache-dir to minimize final image size
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+# Copy the rest of the application files
+COPY --chown=user . /app
 
-# --- Step 2: Final Runtime Stage ---
-FROM python:3.11-slim
+# Hugging Face explicitly requires listening on port 7860
+EXPOSE 7860
 
-WORKDIR /app
-
-# Set runtime environment parameters
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PORT=8000
-
-# Copy installed dependencies from the builder stage
-COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
-
-# Copy the application source code into the execution environment
-COPY . .
-
-# Expose the internal port that Uvicorn will listen on
-EXPOSE ${PORT}
-
-# Healthcheck to verify the container is alive and responding
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:${PORT}/docs || exit 1
-
-# Launch the Uvicorn application server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Launch Uvicorn on port 7860
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
