@@ -22,7 +22,6 @@ app.add_middleware(
         'http://localhost:3000',
         'http://localhost:5173',
         'http://127.0.0.1:5173',
-        'http://localhost:8000',
         'https://precision-diagnostics-xai.vercel.app'
     ],
     allow_origin_regex=r".*\.vercel\.app$",
