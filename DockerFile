@@ -34,4 +34,4 @@ COPY --chown=user ./backend /app
 EXPOSE 7860
 
 # Launch the FastAPI server
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "7860"]
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
