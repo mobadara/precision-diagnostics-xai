@@ -23,7 +23,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-app.include(predict.router)
+app.include_router(predict.router)
 
 @app.get('/')
 async def root_health_check():
