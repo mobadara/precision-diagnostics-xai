@@ -33,7 +33,7 @@ def get_densenet_model() -> nn.Module:
         nn.Linear(num_features, 256),
         nn.ReLU(),
         nn.Dropout(0.3),
-        nn.Linear(256 2)
+        nn.Linear(256, 2)
     )
     return model
 
