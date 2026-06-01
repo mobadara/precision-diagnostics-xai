@@ -2,7 +2,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from motor.motor.asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import AsyncIOMotorClient
 from dotenv import load_dotenv
 import logging
 
