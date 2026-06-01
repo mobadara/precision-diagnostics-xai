@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  /* Your core brand color */
+  --color-navy: #000080;
+  
+  /* Medical Accents */
+  --color-clinical-teal: #0F766E;
+  --color-surgical-mint: #10B981;
+  --color-trust-cyan: #0EA5E9;
+  
+  /* Alert color for "Pneumonia Detected" */
+  --color-critical-red: #EF4444; 
+}
