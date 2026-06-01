@@ -1,0 +1,23 @@
+{
+  "name": "Pneumonia Vision AI",
+  "short_name": "PneumoniaAI",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0b5cff",
+  "description": "Explainable AI-assisted chest X-ray triage and diagnostics.",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.svg",
+      "sizes": "180x180",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/social-preview.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

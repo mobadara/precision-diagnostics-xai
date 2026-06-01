@@ -21,7 +21,7 @@ export default function LoginScreen() {
                     <div className="bg-navy p-3 rounded-full mb-4">
                         <Activity className="text-white w-8 h-8" />
                     </div>
-                    <h2 className="text-2xl font-bold text-navy">DEBUTRON LAB</h2>
+                    <h2 className="text-2xl font-bold text-navy">PNEUMONIA VISION AI</h2>
                     <p className="text-gray-500 text-sm mt-1">Precision Diagnostics Portal</p>
                 </div>
 

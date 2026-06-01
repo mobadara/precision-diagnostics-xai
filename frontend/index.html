@@ -1,13 +1,55 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="description" content="Pneumonia Vision AI — diagnostic assistance using explainable AI for chest X-rays." />
+    <meta name="robots" content="index,follow" />
+
+    <!-- Mobile / PWA -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Pneumonia Vision AI" />
+    <meta name="theme-color" content="#0b5cff" />
+    <link rel="manifest" href="/manifest.json" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <link rel="apple-touch-icon" href="/apple-touch-icon.svg" sizes="180x180" />
+    <link rel="icon" href="/apple-touch-icon.svg" sizes="180x180" />
+
+    <!-- Social / SEO -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Pneumonia Vision AI" />
+    <meta property="og:description" content="Explainable AI for chest X-ray diagnosis and triage." />
+    <meta property="og:url" content="/" />
+    <meta property="og:image" content="/social-preview.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pneumonia Vision AI" />
+    <meta name="twitter:description" content="Explainable AI for chest X-ray diagnosis and triage." />
+
+    <title>Pneumonia Vision AI</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(reg => console.log('Service worker registered:', reg))
+            .catch(err => console.warn('SW registration failed:', err));
+        });
+      }
+
+      // Capture install prompt for later use
+      window.deferredPrompt = null;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        console.log('beforeinstallprompt captured; call window.deferredPrompt.prompt() to show install dialog.');
+      });
+    </script>
   </body>
 </html>
