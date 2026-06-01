@@ -14,15 +14,29 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logging.info('Environment variables loaded successfully.')
 
+
+def _get_env_var(*names: str) -> str:
+    """
+    Returns the first configured environment variable from a list of candidates.
+
+    Hugging Face Spaces exposes secrets as environment variables, so this helper
+    accepts both the original project names and common aliases.
+    """
+    for name in names:
+        value = os.getenv(name)
+        if value:
+            return value
+    raise RuntimeError(f"Missing required environment variable. Tried: {', '.join(names)}")
+
 # MongoDB configuration
-MONGODB_URI = os.getenv('MONGODB_URI')
-DB_NAME = os.getenv('DATABASE_NAME')
+MONGODB_URI = _get_env_var('MONGODB_URI', 'MONGO_URI')
+DB_NAME = _get_env_var('DATABASE_NAME', 'DB_NAME')
 
 # Cloudinary Configuration
 cloudinary.config(
-    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.getenv('CLOUDINARY_API_KEY'),
-    api_secret=os.getenv('CLOUDINARY_API_SECRET'),
+    cloud_name=_get_env_var('CLOUDINARY_CLOUD_NAME'),
+    api_key=_get_env_var('CLOUDINARY_API_KEY'),
+    api_secret=_get_env_var('CLOUDINARY_API_SECRET'),
     secure=True
 )
 
