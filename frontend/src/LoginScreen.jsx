@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from './useAuth';
 import { Activity } from 'lucide-react';
 
@@ -23,6 +23,10 @@ export default function LoginScreen() {
                     </div>
                     <h2 className="text-2xl font-bold text-navy">PNEUMONIA VISION AI</h2>
                     <p className="text-gray-500 text-sm mt-1">Precision Diagnostics Portal</p>
+                </div>
+
+                <div className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+                    Invalid credentials. Use doctor@clinic.com / password123
                 </div>
 
                 {error && (
