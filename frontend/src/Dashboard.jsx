@@ -81,7 +81,7 @@ export default function Dashboard() {
         formData.append("file", selectedFile);
 
         try {
-            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+            const API_URL = import.meta.env.VITE_API_URI;
             const response = await axios.post(`${API_URL}/api/v1/predict`, formData, {
                 headers: { "Content-Type": "multipart/form-data" }
             });
@@ -100,7 +100,7 @@ export default function Dashboard() {
         setFeedbackStatus('loading');
         
         try {
-            const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+            const API_URL = import.meta.env.VITE_API_URI;
             
             // If the doctor agrees, override is FALSE. If they disagree, override is TRUE.
             const payload = {
